@@ -4,8 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
 <p>
     <a asp-action="Create" class="btn btn-primary">新增商品</a>
 </p>
@@ -62,9 +60,9 @@
                     @Html.DisplayFor(modelItem => item.Discontinued)
                 </td>
                 <td>
-                    <button type="button" class="btn btn-info">編輯</button>
-                    <button type="button" class="btn btn-success">內容</button>
-                    <button type="button" class="btn btn-danger">刪除</button>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-info">編輯</a>
+                    <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-success">內容</a>
+                    <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-danger">刪除</a>
                 </td>
             </tr>
         }
