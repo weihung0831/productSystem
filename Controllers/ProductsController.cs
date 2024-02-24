@@ -84,8 +84,8 @@ namespace productSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", product.SupplierId);
+            ViewData["CategoryName"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            ViewData["SupplierName"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", product.SupplierId);
             return View(product);
         }
 
@@ -121,8 +121,8 @@ namespace productSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", product.SupplierId);
+            ViewData["CategoryName"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            ViewData["SupplierName"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", product.SupplierId);
             return View(product);
         }
 
