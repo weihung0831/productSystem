@@ -21,7 +21,10 @@ namespace productSystem.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var northwindContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+            var northwindContext = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier)
+                .OrderByDescending(p => p.ProductId);
             return View(await northwindContext.ToListAsync());
         }
 
