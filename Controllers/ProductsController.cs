@@ -48,8 +48,8 @@ namespace productSystem.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId");
+            ViewData["CategoryName"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            ViewData["SupplierName"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName");
             return View();
         }
 
@@ -66,8 +66,8 @@ namespace productSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", product.SupplierId);
+            ViewData["CategoryName"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            ViewData["SupplierName"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", product.SupplierId);
             return View(product);
         }
 
