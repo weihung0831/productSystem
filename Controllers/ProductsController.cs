@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using productSystem.Models;
+using productSystem.ViewModels;
 
 namespace productSystem.Controllers
 {
@@ -19,13 +20,15 @@ namespace productSystem.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int page = 1)
         {
             // 檢查是否有搜尋字串
             bool hasSearchString = !string.IsNullOrEmpty(searchString);
             ViewBag.HasSearchString = hasSearchString;
             //保存搜尋的字串
             ViewBag.CurrentFilter = searchString;
+
+            int pageSize = 10;
 
             // 取得所有產品並包含類別和供應商資訊，並按照產品編號降序排序
             IQueryable<Product> northwindContext = _context.Products
@@ -38,7 +41,20 @@ namespace productSystem.Controllers
                 northwindContext = northwindContext.Where(p => p.ProductName.Contains(searchString));
             }
 
-            return View(await northwindContext.ToListAsync());
+            int totalSkip = (page - 1) * pageSize;
+            var pageProducts = await northwindContext
+                .Skip(totalSkip)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var viewModel = new ProductViewModel
+            {
+                Products = pageProducts,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(await northwindContext.CountAsync() / (double)pageSize)
+            };
+
+            return View(viewModel);
         }
 
         // GET: Products/Details/5
