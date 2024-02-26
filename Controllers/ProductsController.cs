@@ -19,12 +19,25 @@ namespace productSystem.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var northwindContext = _context.Products
+            // 檢查是否有搜尋字串
+            bool hasSearchString = !string.IsNullOrEmpty(searchString);
+            ViewBag.HasSearchString = hasSearchString;
+            //保存搜尋的字串
+            ViewBag.CurrentFilter = searchString;
+
+            // 取得所有產品並包含類別和供應商資訊，並按照產品編號降序排序
+            IQueryable<Product> northwindContext = _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
                 .OrderByDescending(p => p.ProductId);
+
+            if (hasSearchString)
+            {
+                northwindContext = northwindContext.Where(p => p.ProductName.Contains(searchString));
+            }
+
             return View(await northwindContext.ToListAsync());
         }
 
@@ -163,14 +176,14 @@ namespace productSystem.Controllers
             {
                 _context.Products.Remove(product);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-          return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
+            return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
         }
     }
 }

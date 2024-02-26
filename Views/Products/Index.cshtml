@@ -4,9 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">新增商品</a>
-</p>
+@if (ViewBag.HasSearchString != true)
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">新增產品</a>
+    </p>
+}
+
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="searchString" placeholder="請輸入產品名稱" value="@ViewBag.CurrentFilter">
+    </div>  
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -50,6 +61,13 @@
         }
     </tbody>
 </table>
+
+@if (ViewBag.HasSearchString == true)
+{
+    <div class="form-group">
+        <a class="btn btn-secondary" href="@Url.Action("Index", "Products")">返回</a>
+    </div>
+}
 
 <style>
     .btn {
