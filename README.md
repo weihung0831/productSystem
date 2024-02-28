@@ -1,6 +1,6 @@
 # productSystem
 
-## 使用 DB First 方式生成 Model 和和  DbContext
+## Generate Model and DbContext using DB First method
 
 ```bash
 Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=Northwind;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
